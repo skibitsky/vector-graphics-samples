@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.VectorGraphics;
+using UnityEngine.UI;
 
 public class RuntimeGradient : MonoBehaviour
 {
@@ -44,6 +45,18 @@ public class RuntimeGradient : MonoBehaviour
         // Build a sprite with the tessellated geometry.
         var sprite = VectorUtils.BuildSprite(geoms, 10.0f, VectorUtils.Alignment.Center, Vector2.zero, 16, true);
         GetComponent<SpriteRenderer>().sprite = sprite;
+
+
+        // Set gradient to uGUI raw image
+        var mat = new Material(Shader.Find("Unlit/VectorGradient"));
+        var texture = VectorUtils.RenderSpriteToTexture2D(sprite, 512, 512, mat);
+        FindObjectOfType<RawImage>().texture = texture;
+        
+        // This texture ☝️can also be used with UI Toolkit images
+        // var image = new Image
+        // {
+        //     image = texture
+        // };
     }
 
     void OnDisable()
